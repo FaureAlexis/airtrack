@@ -13,6 +13,7 @@ export default function Home() {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const mapRef = useRef<MapView>(null);
   const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const [bottomSheetIndex, setBottomSheetIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchTrigger, setSearchTrigger] = useState('');
   const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);
@@ -52,11 +53,8 @@ export default function Home() {
     }
   }, [flightDetails]);
 
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
-
   const handleSearch = () => {
+    setBottomSheetIndex(2);
     if (!searchQuery.trim()) return;
     setSearchTrigger(searchQuery.trim());
     setSelectedFlight(null);
@@ -81,8 +79,8 @@ export default function Home() {
           <BottomSheet
             ref={bottomSheetRef}
             snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-            index={0}
+            // onChange={handleSheetChanges}
+            index={bottomSheetIndex}
             backgroundStyle={styles.bottomSheetBackground}
             enablePanDownToClose={false}
             keyboardBehavior="extend"
