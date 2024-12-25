@@ -1,50 +1,105 @@
-# Welcome to your Expo app 👋
+# Flight Tracker App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A real-time flight tracking application built with Expo and React Native.
 
-## Get started
+## Features
+
+- Search flights by flight number
+- Real-time flight tracking on map
+- Detailed flight information
+- Aircraft images and details
+- Airport information
+
+## Setup
 
 1. Install dependencies
-
    ```bash
    npm install
    ```
 
-2. Start the app
-
-   ```bash
-    npx expo start
+2. Create a `.env` file in the root directory with your RapidAPI key:
+   ```
+   RAPID_API_KEY=your_api_key_here
    ```
 
-In the output, you'll find options to open the app in a
+3. Create an `app.config.ts` file in the root directory:
+   ```typescript
+   import 'dotenv/config';
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   export default {
+     expo: {
+       name: 'airtrack',
+       slug: 'airtrack',
+       version: '1.0.0',
+       orientation: 'portrait',
+       icon: './assets/icon.png',
+       userInterfaceStyle: 'light',
+       splash: {
+         image: './assets/splash.png',
+         resizeMode: 'contain',
+         backgroundColor: '#ffffff'
+       },
+       assetBundlePatterns: ['**/*'],
+       ios: {
+         supportsTablet: true
+       },
+       android: {
+         adaptiveIcon: {
+           foregroundImage: './assets/adaptive-icon.png',
+           backgroundColor: '#ffffff'
+         }
+       },
+       web: {
+         favicon: './assets/favicon.png'
+       },
+       extra: {
+         rapidApiKey: process.env.RAPID_API_KEY
+       }
+     }
+   };
+   ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+4. Install additional dependencies:
+   ```bash
+   npx expo install dotenv
+   ```
 
-## Get a fresh project
+5. Start the app:
+   ```bash
+   npx expo start
+   ```
 
-When you're ready, run:
+## API Setup
 
-```bash
-npm run reset-project
-```
+This app uses the FlightRadar24 API from RapidAPI. To get your API key:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+1. Sign up at [RapidAPI](https://rapidapi.com)
+2. Subscribe to the [FlightRadar24 API](https://rapidapi.com/apidojo/api/flight-radar1)
+3. Copy your API key and add it to the `.env` file
 
-## Learn more
+## Development
 
-To learn more about developing your project with Expo, look at the following resources:
+The app is built with:
+- Expo
+- React Native
+- React Native Maps
+- React Query
+- Bottom Sheet
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## File Structure
 
-## Join the community
+- `/app` - Main application code
+- `/services` - API services and data fetching
+- `/assets` - Images and other static assets
 
-Join our community of developers creating universal apps.
+## Contributing
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License.
