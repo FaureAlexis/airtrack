@@ -37,14 +37,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    console.log('flights', flights);
-    if (flights && flights.length > 0) {
-      const scheduledFlight = flights.find(f => f.type === 'schedule' || f.type === 'live');
-      setSelectedFlight(scheduledFlight || flights[0]);
-    }
-  }, [flights]);
-
-  useEffect(() => {
     if (flightDetails?.trail && flightDetails.trail.length > 0) {
       const lastPosition = flightDetails.trail[0];
       mapRef.current?.animateToRegion({
@@ -56,6 +48,10 @@ export default function Home() {
     }
   }, [flightDetails]);
 
+  useEffect(() => {
+    console.log('flights', flights);
+  }, [flights]);
+
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
@@ -63,6 +59,7 @@ export default function Home() {
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
     setSearchTrigger(searchQuery.trim());
+    setSelectedFlight(null);
     Keyboard.dismiss();
   };
 
@@ -194,31 +191,59 @@ export default function Home() {
               {error ? (
                 <Text style={styles.errorText}>Failed to search flights. Please try again.</Text>
               ) : flights && flights.length > 0 ? (
-                <ScrollView style={styles.flightList}>
-                  {flights.map((flight) => (
-                    <TouchableOpacity
-                      key={flight.id}
-                      style={[
-                        styles.flightItem,
-                        selectedFlight?.id === flight.id && styles.selectedFlightItem,
-                        flight.type !== 'schedule' && flight.type !== 'live' && styles.disabledFlightItem
-                      ]}
-                      onPress={() => handleFlightSelect(flight)}
-                      disabled={flight.type !== 'schedule' && flight.type !== 'live'}
-                    >
-                      <Text style={styles.flightLabel}>{flight.label}</Text>
-                      <Text style={styles.flightType}>{flight.type}</Text>
-                      {flight.detail.flight && (
-                        <Text style={styles.flightDetail}>
-                          Flight: {flight.detail.flight}
-                        </Text>
-                      )}
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-              ) : (
+                <>
+                  <Text style={styles.resultsTitle}>
+                    Found {flights.length} result{flights.length !== 1 ? 's' : ''}
+                  </Text>
+                  <ScrollView 
+                    style={styles.flightList}
+                    showsVerticalScrollIndicator={false}
+                  >
+                    {flights.map((flight) => {
+                      const isSelectable = flight.type === 'schedule' || flight.type === 'live';
+                      return (
+                        <TouchableOpacity
+                          key={flight.id}
+                          style={[
+                            styles.flightItem,
+                            selectedFlight?.id === flight.id && styles.selectedFlightItem,
+                            !isSelectable && styles.disabledFlightItem
+                          ]}
+                          onPress={() => handleFlightSelect(flight)}
+                          disabled={!isSelectable}
+                        >
+                          <View style={styles.flightItemHeader}>
+                            <Text style={styles.flightLabel}>{flight.label}</Text>
+                            <View style={[
+                              styles.flightTypeBadge,
+                              !isSelectable && styles.disabledFlightTypeBadge
+                            ]}>
+                              <Text style={styles.flightTypeBadgeText}>{flight.type}</Text>
+                            </View>
+                          </View>
+                          {flight.detail.flight && (
+                            <Text style={styles.flightDetail}>
+                              Flight number: {flight.detail.flight}
+                            </Text>
+                          )}
+                          {flight.detail.operator && (
+                            <Text style={styles.flightDetail}>
+                              Operator: {flight.detail.operator}
+                            </Text>
+                          )}
+                          {!isSelectable && (
+                            <Text style={styles.notTrackableText}>
+                              This {flight.type} is not trackable
+                            </Text>
+                          )}
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </ScrollView>
+                </>
+              ) : searchTrigger ? (
                 <Text style={styles.subtitle}>No flights found</Text>
-              )}
+              ) : null}
               {selectedFlight && (
                 <View style={styles.flightInfo}>
                   {isLoadingDetails ? (
@@ -494,5 +519,33 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#333',
     marginBottom: 8,
+  },
+  resultsTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  flightTypeBadge: {
+    backgroundColor: '#007AFF',
+    borderRadius: 4,
+    padding: 4,
+    marginLeft: 8,
+  },
+  disabledFlightTypeBadge: {
+    backgroundColor: '#666',
+  },
+  flightTypeBadgeText: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  notTrackableText: {
+    color: '#666',
+    marginTop: 4,
+  },
+  flightItemHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 }); 
