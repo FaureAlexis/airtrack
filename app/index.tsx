@@ -167,7 +167,7 @@ export default function Home() {
             keyboardBehavior="extend"
           >
             <BottomSheetView style={styles.contentContainer}>
-              <Text style={styles.title}>Flight Tracker</Text>
+              <Text style={styles.title}>AirTrack</Text>
               <View style={styles.searchContainer}>
                 <TextInput
                   style={styles.searchInput}

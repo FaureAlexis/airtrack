@@ -1,6 +1,6 @@
-# Flight Tracker App
+# AirTrack
 
-A real-time flight tracking application built with Expo and React Native.
+A real-time flight tracking application that lets you monitor flights worldwide with detailed information and live tracking.
 
 ## Features
 
@@ -8,13 +8,14 @@ A real-time flight tracking application built with Expo and React Native.
 - Real-time flight tracking on map
 - Detailed flight information
 - Aircraft images and details
-- Airport information
+- Airport information with departure and arrival details
+- Live data including altitude, speed, and heading
 
 ## Setup
 
 1. Install dependencies
    ```bash
-   npm install
+   yarn install
    ```
 
 2. Create a `.env` file in the root directory with your RapidAPI key:
@@ -22,51 +23,9 @@ A real-time flight tracking application built with Expo and React Native.
    RAPID_API_KEY=your_api_key_here
    ```
 
-3. Create an `app.config.ts` file in the root directory:
-   ```typescript
-   import 'dotenv/config';
-
-   export default {
-     expo: {
-       name: 'airtrack',
-       slug: 'airtrack',
-       version: '1.0.0',
-       orientation: 'portrait',
-       icon: './assets/icon.png',
-       userInterfaceStyle: 'light',
-       splash: {
-         image: './assets/splash.png',
-         resizeMode: 'contain',
-         backgroundColor: '#ffffff'
-       },
-       assetBundlePatterns: ['**/*'],
-       ios: {
-         supportsTablet: true
-       },
-       android: {
-         adaptiveIcon: {
-           foregroundImage: './assets/adaptive-icon.png',
-           backgroundColor: '#ffffff'
-         }
-       },
-       web: {
-         favicon: './assets/favicon.png'
-       },
-       extra: {
-         rapidApiKey: process.env.RAPID_API_KEY
-       }
-     }
-   };
-   ```
-
-4. Install additional dependencies:
+3. Start the app:
    ```bash
-   npx expo install dotenv
-   ```
-
-5. Start the app:
-   ```bash
-   npx expo start
+   yarn start
    ```
 
 ## API Setup
@@ -79,12 +38,13 @@ This app uses the FlightRadar24 API from RapidAPI. To get your API key:
 
 ## Development
 
-The app is built with:
+AirTrack is built with modern technologies:
 - Expo
 - React Native
-- React Native Maps
-- React Query
-- Bottom Sheet
+- React Native Maps for flight visualization
+- React Query for data fetching
+- Bottom Sheet for interactive UI
+- TypeScript for type safety
 
 ## File Structure
 
@@ -102,4 +62,4 @@ The app is built with:
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
