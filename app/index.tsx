@@ -41,18 +41,6 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    if (flightDetails?.trail && flightDetails.trail.length > 0) {
-      const lastPosition = flightDetails.trail[0];
-      mapRef.current?.animateToRegion({
-        latitude: lastPosition.lat,
-        longitude: lastPosition.lng,
-        latitudeDelta: 2,
-        longitudeDelta: 2,
-      });
-    }
-  }, [flightDetails]);
-
   const handleSearch = () => {
     setBottomSheetIndex(2);
     if (!searchQuery.trim()) return;

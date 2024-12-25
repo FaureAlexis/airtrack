@@ -178,7 +178,6 @@ const searchFlightsApi = async (query: string): Promise<Flight[]> => {
   }
 
   const data: ApiResponse = await response.json();
-  console.log('search data', JSON.stringify(data, null, 2));
   
   return data.results.map((result) => ({
     id: result.id,
@@ -221,7 +220,7 @@ const getFlightDetailsApi = async (flightId: string): Promise<FlightDetail> => {
   }
 
   const data = await response.json();
-  console.log('detail data', JSON.stringify(data, null, 2));
+
   return data;
 };
 
