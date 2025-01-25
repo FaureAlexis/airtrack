@@ -2,6 +2,8 @@
 
 A real-time flight tracking application that lets you monitor flights worldwide with detailed information and live tracking.
 
+![AirTrack App](./documentation/image.png)
+
 ## Features
 
 - Search flights by flight number
